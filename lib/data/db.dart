@@ -3,11 +3,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 class ToDoDataBase {
   // data list of tasks
   List toDoTasks = [];
+  final Box toDoBox = Hive.box('toDoBox');
 
-  // refrence hive box
-  final toDoBox = Hive.box('toDoBox');
-
-  // creates first use data
   void initalData() {
     toDoTasks = [
       ["Slide me to right to edit me!", false],
