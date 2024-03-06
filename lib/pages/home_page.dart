@@ -35,7 +35,10 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  void saveNewTask () {
+  void closeTaskDialog() => Navigator.of(context).pop();
+
+  // New Task Methods
+  void saveNewTask() {
     setState(() {
         if (!taskDialogController.text.isNotEmpty) return;
         db.toDoTasks.add([taskDialogController.text, false]);
@@ -43,21 +46,45 @@ class HomePageState extends State<HomePage> {
       }
     );
     db.saveData(); // should change it 
-    cancelNewTask();
+    closeTaskDialog();
   }
-
-  void cancelNewTask () => Navigator.of(context).pop();
 
   void createNewToDoTask() {
     showDialog(context: context, builder: (context) {
       return TaskDialog(
         controller: taskDialogController,
         onSave: saveNewTask,
-        onCancel: cancelNewTask,
+        onCancel: closeTaskDialog,
       );
     });
   }
 
+  // Edit ToDo Task methods
+  void saveEditedToDoTask(int editTaskIndex) {
+    setState(() {
+        if (!taskDialogController.text.isNotEmpty) return;
+        db.toDoTasks[editTaskIndex] = [taskDialogController.text, db.toDoTasks[editTaskIndex][1]];
+        taskDialogController.clear();
+      }
+    );
+    db.saveData(); // should change it 
+    closeTaskDialog();
+  }
+  
+  void editToDoTask(int editTaskIndex) {
+
+    taskDialogController.text = db.toDoTasks[editTaskIndex][0];
+
+    showDialog(context: context, builder: (context) {
+      return TaskDialog(
+        controller: taskDialogController,
+        onSave: () => saveEditedToDoTask(editTaskIndex),
+        onCancel: closeTaskDialog,
+      );
+    });
+  }
+
+  // Check Box
   void onCheckBoxChange(int index) {
     setState(() {
       db.toDoTasks[index][1] = !db.toDoTasks[index][1];
@@ -66,12 +93,21 @@ class HomePageState extends State<HomePage> {
     db.saveData();
   }
 
+  // Slide Buttons
   void onSlideDelete(int index) {
     setState(() {
         db.toDoTasks.removeAt(index);
       }
     );
     db.saveData(); // should change it to delete the key index
+  }
+
+  void onSlideEdit(int index) {
+    setState(() {
+        //db.toDoTasks.removeAt(index);
+        editToDoTask(index);
+      }
+    );
   }
 
   FloatingActionButton homePageStateFloatingActionButton() {
@@ -103,6 +139,7 @@ class HomePageState extends State<HomePage> {
         completed: db.toDoTasks[index][1],
         onChange: (_) => onCheckBoxChange(index),
         onSlideDelete: (_) => onSlideDelete(index),
+        onSlideEdit: (_) => onSlideEdit(index),
       ),
     );
   }

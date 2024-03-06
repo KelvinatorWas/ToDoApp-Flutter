@@ -10,7 +10,8 @@ class ToDoDataBase {
   // creates first use data
   void initalData() {
     toDoTasks = [
-      ["Hello User!", false],
+      ["Slide me to right to edit me!", false],
+      ["Slide me to left to delete me!", false],
     ];
   }
 

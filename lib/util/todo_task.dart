@@ -4,8 +4,9 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 class ToDoTask extends StatefulWidget {
   final bool completed;
   final String taskTitle;
-  final Function(bool?)? onChange;
-  final Function(BuildContext)? onSlideDelete;
+  final void Function(bool?)? onChange;
+  final void Function(BuildContext)? onSlideDelete;
+  final void Function(BuildContext)? onSlideEdit;
 
   const ToDoTask({
     super.key,
@@ -13,6 +14,7 @@ class ToDoTask extends StatefulWidget {
     required this.completed,
     required this.onChange,
     required this.onSlideDelete,
+    required this.onSlideEdit,
   });
 
   @override
@@ -20,7 +22,6 @@ class ToDoTask extends StatefulWidget {
 }
 
 class _ToDoTaskState extends State<ToDoTask> {
-  Function(BuildContext)? onSlideEdit;
 
   double borderRadius = 5.0;
 
@@ -43,7 +44,7 @@ class _ToDoTaskState extends State<ToDoTask> {
       motion: const StretchMotion(),
       children: [
         SlidableAction(
-          onPressed: onSlideEdit,
+          onPressed: widget.onSlideEdit,
           icon: Icons.edit,
           backgroundColor: Colors.green,
           borderRadius: BorderRadius.circular(borderRadius),
