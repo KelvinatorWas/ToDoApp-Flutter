@@ -17,7 +17,7 @@ class TodoApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
-      theme: ThemeData(appBarTheme: const AppBarTheme( backgroundColor: Colors.deepPurple)),
+      theme: ThemeData(appBarTheme: const AppBarTheme( backgroundColor:Colors.blue)),
     );
   }
 }

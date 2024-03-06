@@ -22,8 +22,9 @@ class ToDoTask extends StatefulWidget {
 }
 
 class _ToDoTaskState extends State<ToDoTask> {
-
   double borderRadius = 5.0;
+  double paddingLeftRight = 15.0;
+  double paddingTop = 10.0;
 
   ActionPane slideDeleteButton() {
     return ActionPane(
@@ -58,18 +59,31 @@ class _ToDoTaskState extends State<ToDoTask> {
       children: [
         // check box
         Checkbox(
-          value: widget.completed,
-          onChanged: widget.onChange,
-          activeColor: Colors.white,
-          checkColor: Colors.black,
-        ),
+            value: widget.completed,
+            onChanged: widget.onChange,
+            checkColor: Colors.grey,
+            shape: const CircleBorder(),
+            fillColor: MaterialStateColor.resolveWith((states) => Colors.grey.shade900),
+            side: MaterialStateBorderSide.resolveWith((states) {
+              if (states.contains(MaterialState.selected)) {
+                return const BorderSide(color: Colors.grey, width: 2.0);
+              } else {
+                return const BorderSide(color: Colors.white, width: 2.0);
+              }
+            }),
+
+            ),
 
         //task title
         Text(
           widget.taskTitle,
           style: TextStyle(
-            decoration:
-                widget.completed ? TextDecoration.lineThrough : TextDecoration.none,
+            decoration: widget.completed
+                ? TextDecoration.lineThrough
+                : TextDecoration.none,
+            color: widget.completed ? Colors.grey : Colors.white,
+            decorationColor: Colors.grey,
+            fontSize: 14.0,
           ),
         ),
       ],
@@ -78,9 +92,11 @@ class _ToDoTaskState extends State<ToDoTask> {
 
   Container toDoTaskBody() {
     return Container(
-      padding: const EdgeInsets.all(21.0),
+      padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-          color: Colors.deepPurple, borderRadius: BorderRadius.circular(borderRadius)),
+        color: Colors.grey[900],
+        borderRadius: BorderRadius.circular(borderRadius),
+      ),
       child: toDoTaskBodyValues(),
     );
   }
@@ -96,7 +112,7 @@ class _ToDoTaskState extends State<ToDoTask> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 21.0, right: 21.0, top: 21.0),
+      padding: EdgeInsets.only(left: paddingLeftRight, right: paddingLeftRight, top: paddingTop),
       child: toDoTaskContainer(),
     );
   }

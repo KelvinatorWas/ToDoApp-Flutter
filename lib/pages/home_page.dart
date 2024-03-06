@@ -28,7 +28,7 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple[300],
+      backgroundColor: const Color.fromARGB(255, 23, 24, 33),
       appBar: homePageStateAppBar(),
       body: homePageStateBody(),
       floatingActionButton: homePageStateFloatingActionButton() ,
@@ -113,8 +113,12 @@ class HomePageState extends State<HomePage> {
   FloatingActionButton homePageStateFloatingActionButton() {
     return FloatingActionButton(
       onPressed: createNewToDoTask,
+      backgroundColor: Colors.blue,
+      shape: const CircleBorder(),
       child: const Icon(
         Icons.add,
+        color: Colors.white,
+        size: 32.0,
       )
     );
   }
@@ -123,11 +127,12 @@ class HomePageState extends State<HomePage> {
     return AppBar(
       title: const Center(
         child: Text(
-          "TODO",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          "Todo List",
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18.0),
         ),
       ),
       elevation: 0,
+      toolbarHeight: 64,
     );
   }
 
