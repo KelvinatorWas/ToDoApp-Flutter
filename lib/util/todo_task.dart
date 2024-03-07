@@ -94,7 +94,7 @@ class _ToDoTaskState extends State<ToDoTask> {
     return Container(
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-        color: Colors.grey[900],
+        color: Colors.grey.shade900,
         borderRadius: BorderRadius.circular(borderRadius),
       ),
       child: toDoTaskBodyValues(),
