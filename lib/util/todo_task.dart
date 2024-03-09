@@ -59,22 +59,19 @@ class _ToDoTaskState extends State<ToDoTask> {
     return Row(
       children: [
         // check box
-        CCheckbox(onChange: widget.onChange),
-        Checkbox(
-            value: widget.completed,
-            onChanged: widget.onChange,
-            checkColor: Colors.grey,
-            shape: const CircleBorder(),
-            fillColor: MaterialStateColor.resolveWith((states) => Colors.grey.shade900),
-            side: MaterialStateBorderSide.resolveWith((states) {
-              if (states.contains(MaterialState.selected)) {
-                return const BorderSide(color: Colors.grey, width: 2.0);
-              } else {
-                return const BorderSide(color: Colors.white, width: 2.0);
-              }
-            }),
 
-            ),
+        Padding(padding: const EdgeInsets.all(16), child: CCheckbox(
+          onChange: widget.onChange,
+          borderColor: Colors.white,
+          borderActiveColor: Colors.grey,
+          iconColor: Colors.grey,
+          shape: CCheckboxShape.circle,
+          borderWidth: 2,
+          width: 19,
+          height: 19,
+          iconSize: 16,
+          value: widget.completed,
+        ),),
 
         //task title
         Text(
@@ -90,6 +87,24 @@ class _ToDoTaskState extends State<ToDoTask> {
         ),
       ],
     );
+  }
+
+  Checkbox oldCheckbox() {
+    return Checkbox(
+          value: widget.completed,
+          onChanged: widget.onChange,
+          checkColor: Colors.grey,
+          shape: const CircleBorder(),
+          fillColor: MaterialStateColor.resolveWith((states) => Colors.grey.shade900),
+          side: MaterialStateBorderSide.resolveWith((states) {
+            if (states.contains(MaterialState.selected)) {
+              return const BorderSide(color: Colors.grey, width: 2.0);
+            } else {
+              return const BorderSide(color: Colors.white, width: 2.0);
+            }
+          }),
+
+          );
   }
 
   Container toDoTaskBody() {
