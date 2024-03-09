@@ -1,3 +1,4 @@
+import 'package:ToDo/util/checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -58,6 +59,7 @@ class _ToDoTaskState extends State<ToDoTask> {
     return Row(
       children: [
         // check box
+        CCheckbox(onChange: widget.onChange),
         Checkbox(
             value: widget.completed,
             onChanged: widget.onChange,

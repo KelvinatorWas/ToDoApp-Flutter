@@ -19,7 +19,6 @@ class CCheckbox extends StatefulWidget {
 }
 
 class CCheckboxState extends State<CCheckbox> {
-
   bool checkBoxValue = false; 
 
   @override
@@ -29,11 +28,16 @@ class CCheckboxState extends State<CCheckbox> {
     super.initState();
   }
 
+  void onChange(bool? v) {
+    checkBoxValue = !checkBoxValue;
+    widget.onChange!(v);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Checkbox(
-      value: widget.value,
-      onChanged: widget.onChange,
+      value: checkBoxValue,
+      onChanged: onChange,
     );
   }
 }
