@@ -116,8 +116,8 @@ class HomePageState extends State<HomePage> {
   FloatingActionButton homePageStateFloatingActionButton() {
     return FloatingActionButton(
       onPressed: createNewToDoTask,
-      backgroundColor: Colors.blue,
-      shape: const CircleBorder(),
+      backgroundColor: Colors.deepOrange,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       child: const Icon(
         Icons.add,
         color: Colors.white,
@@ -128,11 +128,9 @@ class HomePageState extends State<HomePage> {
   
   AppBar homePageStateAppBar() {
     return AppBar(
-      title: const Center(
-        child: Text(
-          "Todo List",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18.0),
-        ),
+      title: const Text(
+        "Simple.todo",
+        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18.0),
       ),
       elevation: 0,
       toolbarHeight: 64,

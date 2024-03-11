@@ -1,6 +1,6 @@
+import 'package:ToDo/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:ToDo/pages/home_page.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -17,7 +17,7 @@ class TodoApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
-      theme: ThemeData(appBarTheme: const AppBarTheme( backgroundColor:Colors.blue)),
+      theme: ThemeData(appBarTheme: const AppBarTheme( backgroundColor: Colors.transparent)),
     );
   }
 }
