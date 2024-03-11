@@ -4,8 +4,7 @@ enum CCheckboxShape { box, circle }
 
 class CCheckbox extends StatefulWidget {
   final void Function(bool? v)? onChange;
-  final double width;
-  final double height;
+  final double size;
   final bool value;
   final CCheckboxShape? shape;
   final double borderWidth;
@@ -20,8 +19,7 @@ class CCheckbox extends StatefulWidget {
     required this.onChange,
     this.value = false,
     this.shape = CCheckboxShape.box,
-    this.width = 24.0,
-    this.height = 24.0,
+    this.size = 24.0,
     this.borderWidth = 1.0,
     this.iconSize = 18.0,
     this.borderColor = Colors.black,
@@ -43,7 +41,7 @@ class CCheckboxState extends State<CCheckbox> {
     super.initState();
   }
   
-    void onChange(bool? v) {
+  void onChange(bool? v) {
     checkboxValue = !checkboxValue; 
     widget.onChange!(v);
   }
@@ -55,8 +53,8 @@ class CCheckboxState extends State<CCheckbox> {
         onChange(!checkboxValue);
       },
       child: Container(
-        width: widget.width,
-        height: widget.width,
+        width: widget.size,
+        height: widget.size,
         decoration: BoxDecoration(
           shape: widget.shape == CCheckboxShape.box ? BoxShape.rectangle : BoxShape.circle,
           border: Border.all(color: checkboxValue ? widget.borderActiveColor : widget.borderColor, width: widget.borderWidth),
