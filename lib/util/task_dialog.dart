@@ -45,6 +45,7 @@ class _TaskDialogState extends State<TaskDialog> {
     return Column(
      children: [
         taskDialogInputField(),
+        const Padding(padding: EdgeInsets.all(8)),
         taskDialogSaveCancelButtons()
      ], 
     );
@@ -52,7 +53,7 @@ class _TaskDialogState extends State<TaskDialog> {
 
   SizedBox taskDialogContainer() {
     return SizedBox(
-      height: 120,
+      height: 140,
       child: taskDialogUi()
     );
   }
@@ -60,7 +61,7 @@ class _TaskDialogState extends State<TaskDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Colors.deepPurple[300],
+      backgroundColor: Colors.blue,
       content: taskDialogContainer(),
     );
   }
