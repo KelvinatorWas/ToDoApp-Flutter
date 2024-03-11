@@ -35,7 +35,10 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  void closeTaskDialog() => Navigator.of(context).pop();
+  void closeTaskDialog(){ 
+    Navigator.of(context).pop();
+    taskDialogController.clear();
+  }
 
   // New Task Methods
   void saveNewTask() {

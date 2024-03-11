@@ -23,8 +23,11 @@ class TaskDialog extends StatefulWidget {
 class _TaskDialogState extends State<TaskDialog> {
   TextField taskDialogInputField() {
     return TextField(
+      style: const TextStyle(color: Colors.white),
       decoration: const InputDecoration(
-        border: OutlineInputBorder(),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.white)
+        ),
         hintText: "Add a new task...",
       ),
       controller: widget.controller,
