@@ -21,7 +21,7 @@ class TaskDialog extends StatefulWidget {
 }
 
 class _TaskDialogState extends State<TaskDialog> {
-  TextField taskInputField() {
+  TextField taskDialogInputField() {
     return TextField(
       decoration: const InputDecoration(
         border: OutlineInputBorder(),
@@ -31,7 +31,7 @@ class _TaskDialogState extends State<TaskDialog> {
     );
   }
 
-  Row taskSaveCancelButtons() {
+  Row taskDialogSaveCancelButtons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -44,10 +44,8 @@ class _TaskDialogState extends State<TaskDialog> {
   Column taskDialogUi() {
     return Column(
      children: [
-        // get text input
-        taskInputField(),
-        // Buttons
-        taskSaveCancelButtons()
+        taskDialogInputField(),
+        taskDialogSaveCancelButtons()
      ], 
     );
   }
