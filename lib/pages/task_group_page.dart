@@ -6,8 +6,9 @@ import 'package:ToDo/util/todo_task.dart';
 class TaskGroupPage extends StatefulWidget {
   final String taskGroupId;
   final ToDoDataBase db;
+  final VoidCallback updateCount;
 
-  const TaskGroupPage({super.key, this.taskGroupId = "None", required this.db});
+  const TaskGroupPage({super.key, this.taskGroupId = "None", required this.db, required this.updateCount});
 
   @override
   State<TaskGroupPage> createState() => TaskGroupPageState();
@@ -138,6 +139,7 @@ class TaskGroupPageState extends State<TaskGroupPage> {
           onPressed: () {
             widget.db.saveTaskGroupData(widget.taskGroupId);
             Navigator.of(context).pop();
+            widget.updateCount();
           },
           icon: const Icon(Icons.arrow_back_ios_new_sharp)),
       title: const Text(

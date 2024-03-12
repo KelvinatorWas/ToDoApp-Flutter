@@ -30,6 +30,18 @@ class _TaskGroupState extends State<TaskGroup> {
   int taskCount = 0;
 
   @override
+  void initState() {
+    taskCount = widget.db.lenghtOfGroup(widget.title);
+    super.initState();
+  }
+
+  void updateTaskCount() {
+    setState(() {
+      taskCount = widget.db.lenghtOfGroup(widget.title);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(widget.padding),
@@ -48,7 +60,16 @@ class _TaskGroupState extends State<TaskGroup> {
         child: taskGroupBodyChild(),
       ),
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => TaskGroupPage(taskGroupId: widget.title, db: widget.db,)));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TaskGroupPage(
+              taskGroupId: widget.title,
+              db: widget.db,
+              updateCount:updateTaskCount,
+            )
+          )
+        );
       },
     );
   }
@@ -68,7 +89,6 @@ class _TaskGroupState extends State<TaskGroup> {
   }
 
   List<Widget> taskGroupBodyChildElements() {
-    taskCount = widget.db.lenghtOfGroup(widget.title);
     return [
       Container(
         width: 16,

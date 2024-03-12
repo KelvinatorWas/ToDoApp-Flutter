@@ -8,14 +8,7 @@ class ToDoDataBase {
 
   void initalTaskGroupData(String group) {
     taskGroups[group] = [
-      ["Slide me to right to edit me!", false],
-      ["Slide me to left to delete me!", false],
-    ];
-  }
-
-  void initalTaskGroup(String group) {
-    taskGroups[group] = [
-      ["Slide me to right to edit me!", false],
+      ["Slide me to right to edit me!",  false],
       ["Slide me to left to delete me!", false],
     ];
   }
@@ -32,12 +25,9 @@ class ToDoDataBase {
 
   void loadAllTaskData() {
     var data = toDoBox.keys;
-    
     for (String key in data) {
       taskGroups[key] = toDoBox.get(key);
     }
-    
-    // if (data != null) taskGroups = data;
   }
 
   int lenghtOfGroup(String group) {

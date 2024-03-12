@@ -75,7 +75,7 @@ class _HomeState extends State<Home> {
     return GridView.count(
       crossAxisCount: 2,
       padding: const EdgeInsets.all(32.0),
-      children: taskGroups,
+      children: [ ...taskGroups],
     );
   }
 
