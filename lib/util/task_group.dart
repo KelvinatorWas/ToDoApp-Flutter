@@ -1,3 +1,5 @@
+import 'package:ToDo/data/db.dart';
+import 'package:ToDo/pages/task_group_page.dart';
 import 'package:flutter/material.dart';
 
 class TaskGroup extends StatefulWidget {
@@ -7,9 +9,11 @@ class TaskGroup extends StatefulWidget {
   final String title;
   final MaterialColor markerColor;
   final int markerColorShade;
+  final ToDoDataBase db;
 
   const TaskGroup({
     super.key,
+    required this.db, 
     this.padding = 8.0,
     this.size = 120,
     this.borderRadius = 5.0,
@@ -23,6 +27,8 @@ class TaskGroup extends StatefulWidget {
 }
 
 class _TaskGroupState extends State<TaskGroup> {
+  int taskCount = 0;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -42,7 +48,7 @@ class _TaskGroupState extends State<TaskGroup> {
         child: taskGroupBodyChild(),
       ),
       onTap: () {
-        
+        Navigator.push(context, MaterialPageRoute(builder: (context) => TaskGroupPage(taskGroupId: widget.title, db: widget.db,)));
       },
     );
   }
@@ -62,6 +68,7 @@ class _TaskGroupState extends State<TaskGroup> {
   }
 
   List<Widget> taskGroupBodyChildElements() {
+    taskCount = widget.db.lenghtOfGroup(widget.title);
     return [
       Container(
         width: 16,
@@ -91,9 +98,9 @@ class _TaskGroupState extends State<TaskGroup> {
 
       const Padding(padding: EdgeInsets.all(4)),
       
-      const Text(
-        "Tasks 0",
-        style: TextStyle(
+      Text(
+        "Tasks $taskCount",
+        style: const TextStyle(
           color: Colors.white70,
           fontSize: 12
         )

@@ -1,5 +1,7 @@
+import 'package:ToDo/data/db.dart';
 import 'package:ToDo/util/task_group.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 class Home extends StatefulWidget {
   
@@ -10,11 +12,25 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<Widget> taskGroups = [
-      // const TaskGroup(markerColor: Colors.indigo, title: "Shopping",),
-      // const TaskGroup(markerColor: Colors.lightBlue, title: "Personal",),
-      // const TaskGroup(markerColor: Colors.lightGreen, title: "Website",),
+
+  List<Widget> taskGroups = [];
+
+  @override
+  void initState() {
+    // tasks database
+    Hive.box('toDoBox');
+    ToDoDataBase db = ToDoDataBase();
+    db.loadAllTaskData();
+
+    taskGroups = [
+      TaskGroup(markerColor: Colors.indigo, title: "Shopping", db: db,),
+      TaskGroup(markerColor: Colors.lightBlue, title: "Personal", db: db),
+      TaskGroup(markerColor: Colors.lightGreen, title: "Website", db: db),
     ];
+
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +75,8 @@ class _HomeState extends State<Home> {
     return GridView.count(
       crossAxisCount: 2,
       padding: const EdgeInsets.all(32.0),
-      children: homeBodyElements(),
+      children: taskGroups,
     );
-  }
-
-  List<Widget> homeBodyElements() {
-    return taskGroups;
   }
 
   Row homeHasNoTaskGroups() {
