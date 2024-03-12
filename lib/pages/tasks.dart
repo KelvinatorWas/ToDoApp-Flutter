@@ -128,12 +128,13 @@ class HomePageState extends State<HomePage> {
   
   AppBar homePageStateAppBar() {
     return AppBar(
+      elevation: 0,
+      toolbarHeight: 64,
+      leading: IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back_ios_new_sharp)),
       title: const Text(
         "Simple.todo",
         style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18.0),
       ),
-      elevation: 0,
-      toolbarHeight: 64,
     );
   }
 

@@ -64,7 +64,7 @@ class _TaskDialogState extends State<TaskDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.grey.shade900,
       content: taskDialogContainer(),
     );
   }
