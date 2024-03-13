@@ -66,11 +66,10 @@ class TaskGroupPageState extends State<TaskGroupPage> {
   void saveEditedToDoTask(int editTaskIndex) {
     setState(() {
       if (!taskDialogController.text.isNotEmpty) return;
-      
-      widget.db.taskGroups[widget.taskGroupId]?[1][editTaskIndex] = [
-        taskDialogController.text,
-        widget.db.taskGroups[widget.taskGroupId]?[1][editTaskIndex][1]
-      ];
+      widget.db.taskGroups[widget.taskGroupId]?[1][editTaskIndex][0] = taskDialogController.text;
+      print(widget.db.taskGroups[widget.taskGroupId]?[1][editTaskIndex][1]);
+      widget.db.taskGroups[widget.taskGroupId]?[1][editTaskIndex][1] = widget.db.taskGroups[widget.taskGroupId]?[1][editTaskIndex][1];
+
       taskDialogController.clear();
     });
     widget.db.saveTaskGroupData(widget.taskGroupId);
