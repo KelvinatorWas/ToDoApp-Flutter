@@ -7,8 +7,8 @@ class TaskGroup extends StatefulWidget {
   final double size;
   final double borderRadius;
   final String title;
-  final MaterialColor markerColor;
-  final int markerColorShade;
+  final Color markerColor;
+  final Color markerColorShade;
   final ToDoDataBase db;
 
   const TaskGroup({
@@ -19,7 +19,7 @@ class TaskGroup extends StatefulWidget {
     this.borderRadius = 5.0,
     this.title = "Title",
     this.markerColor = Colors.deepOrange,
-    this.markerColorShade = 900,
+    this.markerColorShade = const Color.fromRGBO(191, 54, 12, 1),
   });
 
   @override
@@ -97,7 +97,7 @@ class _TaskGroupState extends State<TaskGroup> {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: widget.markerColor[widget.markerColorShade]!, // dont like using !
+              color: widget.markerColorShade, // dont like using !
               blurRadius: 5.0,
               spreadRadius: 5.0
             )
@@ -111,7 +111,7 @@ class _TaskGroupState extends State<TaskGroup> {
       Text(
         widget.title,
         style: TextStyle(
-          color: widget.markerColor[300]!,
+          color: widget.markerColor,
           fontSize: 16
         )
       ),

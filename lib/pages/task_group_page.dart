@@ -141,9 +141,9 @@ class TaskGroupPageState extends State<TaskGroupPage> {
             widget.updateCount();
           },
           icon: const Icon(Icons.arrow_back_ios_new_sharp)),
-      title: const Text(
-        "Simple.todo",
-        style: TextStyle(
+      title: Text(
+        widget.taskGroupId,
+        style: const TextStyle(
             fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18.0),
       ),
     );

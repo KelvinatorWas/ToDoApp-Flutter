@@ -1,12 +1,13 @@
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class ToDoDataBase {
   Map<String, List<dynamic>> taskGroups = {};
   final Box toDoBox = Hive.box('toDoBox');
 
-  void initalTaskGroupData(String group) {
+  void OLD_initalTaskGroupData(String group) {
     taskGroups[group] = [
-      ["Tutorial"],
+      ["Tutorial", [255, 0, 255, 255], [100, 0, 255, 255]],
       [
         ["Slide me to right to edit me!", false],
         ["Slide me to left to delete me!", false],
@@ -16,7 +17,7 @@ class ToDoDataBase {
 
   void firstLaunchInitData() {
     taskGroups["Tutorial"] = [
-      ["Tutorial"],
+      ["Tutorial", [255, 0, 255, 255], [100, 0, 255, 255]],
       [
         ["Slide me to right to edit me!", false],
         ["Slide me to left to delete me!", false],
@@ -57,6 +58,16 @@ class ToDoDataBase {
 
   int getTaskGroupsCount() => taskGroups.length;
   String getTaskGroupTitle(String key) => taskGroups[key]?[0][0];
+
+  Color getTaskGroupMarkerColor(String key) {
+    List<int> argb = taskGroups[key]?[0][1];
+    return Color.fromARGB(argb[0], argb[1], argb[2], argb[3]);
+  }
+
+  Color getTaskGroupMarkerShadeColor(String key) {
+    List<int> argb = taskGroups[key]?[0][2];
+    return Color.fromARGB(argb[0], argb[1], argb[2], argb[3]);
+  }
 
   int lenghtOfGroup(String group) {
     var data = taskGroups[group]?[1];

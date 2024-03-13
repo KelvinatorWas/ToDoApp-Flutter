@@ -1,3 +1,4 @@
+import 'package:ToDo/util/color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:ToDo/util/button.dart';
 
@@ -6,6 +7,7 @@ class TaskGroupDialog extends StatefulWidget {
   final TextEditingController controller;
   final VoidCallback onSave;
   final VoidCallback onCancel;
+  final void Function(Color color)? setGroupColor;
 
   const TaskGroupDialog(
     {
@@ -13,6 +15,7 @@ class TaskGroupDialog extends StatefulWidget {
       required this.controller,
       required this.onSave,
       required this.onCancel,
+      this.setGroupColor
     }
   );
 
@@ -21,12 +24,23 @@ class TaskGroupDialog extends StatefulWidget {
 }
 
 class _TaskGroupDialogState extends State<TaskGroupDialog> {
+
+  Color titleColor = Colors.white; 
+
+  void setTitleColor(Color color) {
+    setState(() {
+      titleColor = color;
+    });
+    
+    widget.setGroupColor!(color);
+  }
+  
   TextField taskGroupDialogInputField() {
     return TextField(
-      style: const TextStyle(color: Colors.white),
+      style: TextStyle(color: titleColor),
       decoration: InputDecoration(
         hintText: "Task group title...",
-        hintStyle: const TextStyle(color: Colors.white),
+        hintStyle: TextStyle(color: titleColor),
         filled: true,
         fillColor: Colors.grey.shade900,
       ),
@@ -48,7 +62,8 @@ class _TaskGroupDialogState extends State<TaskGroupDialog> {
     return Column(
      children: [
         taskGroupDialogInputField(),
-        const Padding(padding: EdgeInsets.all(28)),
+        ColorPicker(width: 200, height: 15, setColor: setTitleColor,),
+        const Padding(padding: EdgeInsets.all(9)),
         taskGroupDialogSaveCancelButtons()
      ], 
     );

@@ -18,6 +18,7 @@ class _HomeState extends State<Home> {
   List<Widget> taskGroups = [];
 
   TextEditingController taskGroupTitleManager = TextEditingController();
+  Color groupColorManager = const Color(0x00ffffff);
 
   @override
   void initState() {
@@ -67,14 +68,22 @@ class _HomeState extends State<Home> {
   }
 
   void onSave() {
+    Color color = groupColorManager; 
     setState(() {
       if (taskGroupTitleManager.text.isEmpty) return;
       db.taskGroups[taskGroupTitleManager.text] = [
-        [taskGroupTitleManager.text],[]
+        [taskGroupTitleManager.text, [255, color.red, color.green, color.blue], [100, color.red, color.green, color.blue]],
+        []
       ];
     });
     db.saveAllTaskGroupData();
     closeTaskGroupDialog();
+  }
+  
+  void setGroupColor(Color color) {
+    setState(() {
+      groupColorManager = color;
+    });
   }
 
   void createNewTaskGroup() {
@@ -83,7 +92,8 @@ class _HomeState extends State<Home> {
       builder: (context) => TaskGroupDialog(
         controller: taskGroupTitleManager,
         onSave: onSave,
-        onCancel: closeTaskGroupDialog
+        onCancel: closeTaskGroupDialog,
+        setGroupColor: setGroupColor 
       ) 
     );
   }
@@ -108,11 +118,15 @@ class _HomeState extends State<Home> {
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
       itemCount: db.getTaskGroupsCount(),
       itemBuilder: (context, index) {
-        return TaskGroup(title: db.getTaskGroupTitle(keys[index]), markerColor: Colors.lightBlue, db: db);
+        return TaskGroup(
+          title: db.getTaskGroupTitle(keys[index]),
+          markerColor: db.getTaskGroupMarkerColor(keys[index]),
+          markerColorShade: db.getTaskGroupMarkerShadeColor(keys[index]),
+          db: db
+        );
       }
     );
   }
-
 
   Row homeHasNoTaskGroups() {
     return const Row(
