@@ -1,5 +1,6 @@
 import 'package:ToDo/data/db.dart';
 import 'package:ToDo/util/task_group.dart';
+import 'package:ToDo/util/task_group_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -13,14 +14,16 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
+  ToDoDataBase db = ToDoDataBase();
   List<Widget> taskGroups = [];
+
+  TextEditingController taskGroupTitleManager = TextEditingController();
 
   @override
   void initState() {
     // tasks database
     Hive.box('toDoBox');
-    ToDoDataBase db = ToDoDataBase();
-    db.loadAllTaskData();
+    db.loadAllTaskGroupData();
 
     taskGroups = [
       TaskGroup(markerColor: Colors.indigo, title: "Shopping", db: db,),
@@ -30,7 +33,6 @@ class _HomeState extends State<Home> {
 
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,26 +60,59 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+  
+  void closeTaskGroupDialog() {
+    Navigator.of(context).pop();
+    taskGroupTitleManager.clear();
+  }
+
+  void onSave() {
+    setState(() {
+      if (taskGroupTitleManager.text.isEmpty) return;
+      db.taskGroups[taskGroupTitleManager.text] = [
+        [taskGroupTitleManager.text],[]
+      ];
+    });
+    db.saveAllTaskGroupData();
+    closeTaskGroupDialog();
+  }
+
+  void createNewTaskGroup() {
+    showDialog(
+      context: context,
+      builder: (context) => TaskGroupDialog(
+        controller: taskGroupTitleManager,
+        onSave: onSave,
+        onCancel: closeTaskGroupDialog
+      ) 
+    );
+  }
 
   FloatingActionButton homeFloatingActionButton() {
     return FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: Colors.deepOrange,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        child: const Icon(
-          Icons.list,
-          color: Colors.white,
-          size: 32.0,
-        ));
+      onPressed: createNewTaskGroup,
+      backgroundColor: Colors.deepOrange,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      child: const Icon(
+        Icons.list,
+        color: Colors.white,
+        size: 32.0,
+      )
+    );
   }
 
   GridView hasTaskGroup() {
-    return GridView.count(
-      crossAxisCount: 2,
-      padding: const EdgeInsets.all(32.0),
-      children: [ ...taskGroups],
+    List<String> keys = db.taskGroups.keys.toList();
+
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      itemCount: db.getTaskGroupsCount(),
+      itemBuilder: (context, index) {
+        return TaskGroup(title: db.getTaskGroupTitle(keys[index]), markerColor: Colors.lightBlue, db: db);
+      }
     );
   }
+
 
   Row homeHasNoTaskGroups() {
     return const Row(

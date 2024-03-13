@@ -42,9 +42,8 @@ class TaskGroupPageState extends State<TaskGroupPage> {
   // New Task Methods
   void saveNewTask() {
     setState(() {
-      if (!taskDialogController.text.isNotEmpty) return;
-      widget.db.taskGroups[widget.taskGroupId]
-          ?.add([taskDialogController.text, false]);
+      if (taskDialogController.text.isEmpty) return;
+      widget.db.taskGroups[widget.taskGroupId]?[1].add([taskDialogController.text, false]);
       taskDialogController.clear();
     });
     widget.db.saveTaskGroupData(widget.taskGroupId);
@@ -80,7 +79,7 @@ class TaskGroupPageState extends State<TaskGroupPage> {
 
   void editToDoTask(int editTaskIndex) {
     taskDialogController.text =
-        widget.db.taskGroups[widget.taskGroupId]?[editTaskIndex][0];
+        widget.db.taskGroups[widget.taskGroupId]?[1][editTaskIndex][0];
 
     showDialog(
         context: context,
@@ -96,8 +95,8 @@ class TaskGroupPageState extends State<TaskGroupPage> {
   // Check Box
   void onCheckBoxChange(int index) {
     setState(() {
-      widget.db.taskGroups[widget.taskGroupId]?[index][1] =
-        !widget.db.taskGroups[widget.taskGroupId]?[index][1];
+      widget.db.taskGroups[widget.taskGroupId]?[1][index][1] =
+        !widget.db.taskGroups[widget.taskGroupId]?[1][index][1];
     });
 
     widget.db.saveTaskGroupData(widget.taskGroupId);
@@ -106,7 +105,7 @@ class TaskGroupPageState extends State<TaskGroupPage> {
   // Slide Buttons
   void onSlideDelete(int index) {
     setState(() {
-      widget.db.taskGroups[widget.taskGroupId]?.removeAt(index);
+      widget.db.taskGroups[widget.taskGroupId]?[1].removeAt(index);
     });
     widget.db.saveTaskGroupData(widget.taskGroupId);
   }
@@ -152,10 +151,10 @@ class TaskGroupPageState extends State<TaskGroupPage> {
 
   ListView taskGroupPageStateBody() {
     return ListView.builder(
-      itemCount: widget.db.taskGroups[widget.taskGroupId]?.length,
+      itemCount: widget.db.taskGroups[widget.taskGroupId]?[1].length,
       itemBuilder: (context, index) => ToDoTask(
-        taskTitle: widget.db.taskGroups[widget.taskGroupId]?[index][0],
-        completed: widget.db.taskGroups[widget.taskGroupId]?[index][1],
+        taskTitle: widget.db.taskGroups[widget.taskGroupId]?[1][index][0],
+        completed: widget.db.taskGroups[widget.taskGroupId]?[1][index][1],
         onChange: (_) => onCheckBoxChange(index),
         onSlideDelete: (_) => onSlideDelete(index),
         onSlideEdit: (_) => onSlideEdit(index),

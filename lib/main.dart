@@ -16,8 +16,15 @@ class TodoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: "simple.todo",
       home: const Home(),
-      theme: ThemeData(appBarTheme: const AppBarTheme( backgroundColor: Colors.transparent)),
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent),
+        // inputDecorationTheme: const InputDecorationTheme(
+        //   labelStyle: TextStyle(color: Colors.black),
+        //   hintStyle: TextStyle(color: Colors.black),
+        // ),
+      ),
     );
   }
 }
