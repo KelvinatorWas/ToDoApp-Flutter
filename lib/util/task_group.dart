@@ -10,10 +10,12 @@ class TaskGroup extends StatefulWidget {
   final Color markerColor;
   final Color markerColorShade;
   final ToDoDataBase db;
+  final Function(bool v) setGroupDragging;
 
   const TaskGroup({
     super.key,
     required this.db, 
+    required this.setGroupDragging,
     this.padding = 8.0,
     this.size = 120,
     this.borderRadius = 5.0,
@@ -28,6 +30,7 @@ class TaskGroup extends StatefulWidget {
 
 class _TaskGroupState extends State<TaskGroup> {
   int taskCount = 0;
+  bool isDragging = false;
 
   @override
   void initState() {
@@ -41,12 +44,32 @@ class _TaskGroupState extends State<TaskGroup> {
     });
   }
 
+  void onDragStart() => widget.setGroupDragging(true);
+
+  void onDragEnd(DraggableDetails details) => widget.setGroupDragging(false);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(widget.padding),
-      child: taskGroupBody(),
+      child: LongPressDraggable(
+        feedback: taskGroupBody(), 
+        childWhenDragging: taskGroupBodyWhenDragging(),
+        onDragStarted: onDragStart,
+        onDragEnd: onDragEnd,
+        data: widget.title,
+        child: taskGroupBody(),
+        ) ,
     );
+  }
+
+  Container taskGroupBodyWhenDragging() {
+    return Container(
+        width: widget.size,
+        height: widget.size,
+        alignment: Alignment.topLeft,
+        padding: const EdgeInsets.all(12),
+      );
   }
 
   GestureDetector taskGroupBody() {

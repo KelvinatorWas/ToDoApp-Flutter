@@ -43,7 +43,11 @@ class TaskGroupPageState extends State<TaskGroupPage> {
   void saveNewTask() {
     setState(() {
       if (taskDialogController.text.isEmpty) return;
-      widget.db.taskGroups[widget.taskGroupId]?[1].add([taskDialogController.text, false]);
+      widget.db.createNewTask(
+        widget.taskGroupId,
+        taskDialogController.text
+      );
+
       taskDialogController.clear();
     });
     widget.db.saveTaskGroupData(widget.taskGroupId);
@@ -65,38 +69,45 @@ class TaskGroupPageState extends State<TaskGroupPage> {
   // Edit ToDo Task methods
   void saveEditedToDoTask(int editTaskIndex) {
     setState(() {
-      if (!taskDialogController.text.isNotEmpty) return;
-      widget.db.taskGroups[widget.taskGroupId]?[1][editTaskIndex][0] = taskDialogController.text;
-      print(widget.db.taskGroups[widget.taskGroupId]?[1][editTaskIndex][1]);
-      widget.db.taskGroups[widget.taskGroupId]?[1][editTaskIndex][1] = widget.db.taskGroups[widget.taskGroupId]?[1][editTaskIndex][1];
+        if (taskDialogController.text.isEmpty) return;
+        widget.db.setTaskData(
+          widget.taskGroupId,
+          editTaskIndex,
+          taskDialogController.text,
+          null
+        );
 
-      taskDialogController.clear();
-    });
+        taskDialogController.clear();
+      }
+    );
+
     widget.db.saveTaskGroupData(widget.taskGroupId);
-
     closeTaskDialog();
   }
 
   void editToDoTask(int editTaskIndex) {
-    taskDialogController.text =
-        widget.db.taskGroups[widget.taskGroupId]?[1][editTaskIndex][0];
+    taskDialogController.text = widget.db.getTaskText(widget.taskGroupId, editTaskIndex);
 
     showDialog(
-        context: context,
-        builder: (context) {
-          return TaskDialog(
-            controller: taskDialogController,
-            onSave: () => saveEditedToDoTask(editTaskIndex),
-            onCancel: closeTaskDialog,
-          );
-        });
+      context: context,
+      builder: (context) {
+        return TaskDialog(
+          controller: taskDialogController,
+          onSave: () => saveEditedToDoTask(editTaskIndex),
+          onCancel: closeTaskDialog,
+        );
+      }
+    );
   }
 
   // Check Box
   void onCheckBoxChange(int index) {
     setState(() {
-      widget.db.taskGroups[widget.taskGroupId]?[1][index][1] =
-        !widget.db.taskGroups[widget.taskGroupId]?[1][index][1];
+      widget.db.setTaskCheckmarkValue(
+        widget.taskGroupId,
+        index,
+        null
+      );
     });
 
     widget.db.saveTaskGroupData(widget.taskGroupId);
@@ -105,14 +116,13 @@ class TaskGroupPageState extends State<TaskGroupPage> {
   // Slide Buttons
   void onSlideDelete(int index) {
     setState(() {
-      widget.db.taskGroups[widget.taskGroupId]?[1].removeAt(index);
+      widget.db.removeTask(widget.taskGroupId, index);
     });
     widget.db.saveTaskGroupData(widget.taskGroupId);
   }
 
   void onSlideEdit(int index) {
     setState(() {
-      //widget.db.toDoTasks.removeAt(index);
       editToDoTask(index);
     });
   }

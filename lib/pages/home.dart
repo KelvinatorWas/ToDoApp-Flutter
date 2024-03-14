@@ -2,10 +2,10 @@ import 'package:ToDo/data/db.dart';
 import 'package:ToDo/util/task_group.dart';
 import 'package:ToDo/util/task_group_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 
 class Home extends StatefulWidget {
-  
   const Home({super.key});
 
   @override
@@ -13,9 +13,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   ToDoDataBase db = ToDoDataBase();
-  List<Widget> taskGroups = [];
+  bool isGroupDragging = false;
 
   TextEditingController taskGroupTitleManager = TextEditingController();
   Color groupColorManager = const Color(0x00ffffff);
@@ -25,13 +24,6 @@ class _HomeState extends State<Home> {
     // tasks database
     Hive.box('toDoBox');
     db.loadAllTaskGroupData();
-
-    taskGroups = [
-      TaskGroup(markerColor: Colors.indigo, title: "Shopping", db: db,),
-      TaskGroup(markerColor: Colors.lightBlue, title: "Personal", db: db),
-      TaskGroup(markerColor: Colors.lightGreen, title: "Website", db: db),
-    ];
-
     super.initState();
   }
 
@@ -46,7 +38,7 @@ class _HomeState extends State<Home> {
   }
 
   Widget hasAnyTaskGroup() {
-    if (taskGroups.isEmpty) return homeHasNoTaskGroups();
+    if (db.taskGroups.isEmpty) return homeHasNoTaskGroups();
     return hasTaskGroup();
   }
 
@@ -68,13 +60,9 @@ class _HomeState extends State<Home> {
   }
 
   void onSave() {
-    Color color = groupColorManager; 
     setState(() {
       if (taskGroupTitleManager.text.isEmpty) return;
-      db.taskGroups[taskGroupTitleManager.text] = [
-        [taskGroupTitleManager.text, [255, color.red, color.green, color.blue], [100, color.red, color.green, color.blue]],
-        []
-      ];
+      db.createNewTaskGroup(taskGroupTitleManager.text, groupColorManager);
     });
     db.saveAllTaskGroupData();
     closeTaskGroupDialog();
@@ -98,16 +86,41 @@ class _HomeState extends State<Home> {
     );
   }
 
+  void onDeleteGroup(String group) {
+    setState(() {
+      db.removeTaskGroup(group);
+      isGroupDragging = false; 
+    });
+    db.saveAllTaskGroupData();
+  }
+
   FloatingActionButton homeFloatingActionButton() {
     return FloatingActionButton(
-      onPressed: createNewTaskGroup,
-      backgroundColor: Colors.deepOrange,
+      onPressed: isGroupDragging ? null : createNewTaskGroup,
+      backgroundColor: isGroupDragging ? Colors.red : Colors.deepOrange,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-      child: const Icon(
-        Icons.list,
-        color: Colors.white,
-        size: 32.0,
-      )
+      child: homeFloatingActionButtonChild()
+
+    );
+  }
+
+  Row homeFloatingActionButtonChild() {
+    return  Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        DragTarget(
+          onAcceptWithDetails: (details) {
+            onDeleteGroup(details.data.toString());
+          } ,
+          builder: (context, _, __) {
+            return Icon(
+              isGroupDragging ? Icons.delete_forever : Icons.list ,
+              color: Colors.white,
+              size: 32.0,
+            );
+          }
+        )
+      ],
     );
   }
 
@@ -122,7 +135,8 @@ class _HomeState extends State<Home> {
           title: db.getTaskGroupTitle(keys[index]),
           markerColor: db.getTaskGroupMarkerColor(keys[index]),
           markerColorShade: db.getTaskGroupMarkerShadeColor(keys[index]),
-          db: db
+          db: db,
+          setGroupDragging: setGroupDragging
         );
       }
     );
@@ -145,5 +159,11 @@ class _HomeState extends State<Home> {
         ),
       ],
     );
+  }
+
+  void setGroupDragging(bool value) {
+    setState(() {
+      isGroupDragging = value;
+    });
   }
 }
