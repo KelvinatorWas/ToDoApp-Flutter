@@ -90,6 +90,7 @@ class _TaskGroupState extends State<TaskGroup> {
               taskGroupId: widget.title,
               db: widget.db,
               updateCount:updateTaskCount,
+              appBarTitleColor: widget.markerColor,
             )
           )
         );

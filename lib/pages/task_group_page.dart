@@ -7,8 +7,17 @@ class TaskGroupPage extends StatefulWidget {
   final String taskGroupId;
   final ToDoDataBase db;
   final VoidCallback updateCount;
+  final Color appBarTitleColor;
 
-  const TaskGroupPage({super.key, this.taskGroupId = "None", required this.db, required this.updateCount});
+  const TaskGroupPage(
+    {
+      super.key,
+      this.taskGroupId = "None",
+      required this.db,
+      required this.updateCount,
+      this.appBarTitleColor = Colors.white,
+    }
+  );
 
   @override
   State<TaskGroupPage> createState() => TaskGroupPageState();
@@ -150,11 +159,14 @@ class TaskGroupPageState extends State<TaskGroupPage> {
             Navigator.of(context).pop();
             widget.updateCount();
           },
-          icon: const Icon(Icons.arrow_back_ios_new_sharp)),
+          icon: const Icon(Icons.arrow_back_ios_new_sharp, color: Colors.white,)),
       title: Text(
         widget.taskGroupId,
-        style: const TextStyle(
-            fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18.0),
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: widget.appBarTitleColor,
+            fontSize: 18.0
+        ),
       ),
     );
   }
