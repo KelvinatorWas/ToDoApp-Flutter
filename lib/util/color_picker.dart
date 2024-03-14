@@ -41,21 +41,21 @@ class ColorPicker extends StatefulWidget {
 }
 
 class _ColorPickerState extends State<ColorPicker> {
-  final List<Color> colors = [
-    const Color.fromARGB(255, 255, 0, 0),
-    const Color.fromARGB(255, 255, 128, 0),
-    const Color.fromARGB(255, 255, 255, 0),
-    const Color.fromARGB(255, 128, 255, 0),
-    const Color.fromARGB(255, 0, 255, 0),
-    const Color.fromARGB(255, 0, 255, 128),
-    const Color.fromARGB(255, 0, 255, 255),
-    const Color.fromARGB(255, 0, 128, 255),
-    const Color.fromARGB(255, 0, 0, 255),
-    const Color.fromARGB(255, 127, 0, 255),
-    const Color.fromARGB(255, 255, 0, 255),
-    const Color.fromARGB(255, 255, 0, 127),
-    const Color.fromARGB(255, 128, 128, 128),
-    const Color.fromARGB(255, 0, 0, 0),
+  final List<Color> colors = const [
+    Color.fromARGB(255, 255, 0, 0),
+    Color.fromARGB(255, 255, 128, 0),
+    Color.fromARGB(255, 255, 255, 0),
+    Color.fromARGB(255, 128, 255, 0),
+    Color.fromARGB(255, 0, 255, 0),
+    Color.fromARGB(255, 0, 255, 128),
+    Color.fromARGB(255, 0, 255, 255),
+    Color.fromARGB(255, 0, 128, 255),
+    Color.fromARGB(255, 0, 0, 255),
+    Color.fromARGB(255, 127, 0, 255),
+    Color.fromARGB(255, 255, 0, 255),
+    Color.fromARGB(255, 255, 0, 127),
+    Color.fromARGB(255, 128, 128, 128),
+    Color.fromARGB(255, 0, 0, 0),
   ];
 
   double colorSliderPosition = 0;
