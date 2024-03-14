@@ -8,8 +8,11 @@ class SliderPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawCircle(Offset(position, size.height / 2), 10,
-        Paint()..color = color);
+    canvas.drawCircle(
+      Offset(position, size.height / 2),
+      10,
+      Paint()..color = color
+    );
   }
 
   @override
@@ -59,7 +62,7 @@ class _ColorPickerState extends State<ColorPicker> {
   ];
 
   double colorSliderPosition = 0;
-  late Color currentColor = Colors.grey.shade900;
+  Color currentColor = Colors.grey.shade900;
 
   @override
   void initState() {
@@ -106,18 +109,20 @@ class _ColorPickerState extends State<ColorPicker> {
       child: Container(
         width: widget.width,
         height: widget.height,
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: widget.borderWidth,
-            color: Colors.grey.shade900
-          ),
-          borderRadius: BorderRadius.circular(widget.borderRadius),
-          gradient: LinearGradient(colors: colors)
-        ),
-        child: CustomPaint(
-          painter: SliderPainter(colorSliderPosition)
-        ),
+        decoration: colorPickerBodyDecoration(),
+        child: CustomPaint(painter: SliderPainter(colorSliderPosition)),
       ),
+    );
+  }
+
+  BoxDecoration colorPickerBodyDecoration() {
+    return BoxDecoration(
+      border: Border.all(
+        width: widget.borderWidth,
+        color: Colors.grey.shade900
+      ),
+      borderRadius: BorderRadius.circular(widget.borderRadius),
+      gradient: LinearGradient(colors: colors)
     );
   }
 
